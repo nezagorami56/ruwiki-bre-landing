@@ -1,0 +1,272 @@
+/* ==========================================================================
+   РУВИКИ × БРЭ — посадочная страница (прототип)
+   Стили построены на брендбуке РУВИКИ (v1.5, ноябрь 2024).
+   Палитра, градиент знака, «стадион»-пиллы и правила набора — из брендбука.
+   Шрифт TT Commons Expanded в проекте отсутствует → используется системный
+   fallback. Если гарнитура установлена в системе, она подхватится первой.
+   ========================================================================== */
+
+:root {
+  /* --- Основные цвета бренда --- */
+  --orchid:        #aa23ff; /* тёмная орхидея   */
+  --mint:          #28e6a5; /* трилистник крайола */
+  --purple:        #501b6b; /* тёмный пурпурный (основной цвет текста) */
+  --violet:        #6e00c6; /* сине-лиловый */
+  --indigo:        #4b009b; /* персидский индиго */
+
+  /* --- Дополнительные --- */
+  --lavender:      #e7e6ff; /* лавандовый фон */
+  --violet-milk:   #f2deff; /* фиалково-молочный */
+  --white:         #ffffff;
+  --ink:           #501b6b; /* приоритетный цвет текста на светлом */
+  --muted:         #6c5a86; /* приглушённый текст (производный от пурпура) */
+
+  /* --- Фирменный градиент верхнего шейпа знака (−65,5°) --- */
+  --grad-brand: linear-gradient(115deg, var(--indigo) 0%, var(--orchid) 100%);
+  --grad-soft:  linear-gradient(135deg, #f6f1ff 0%, var(--lavender) 100%);
+  --grad-dark:  linear-gradient(150deg, #2a0a4a 0%, var(--indigo) 60%, #6a13b8 100%);
+
+  --line:        #e3def2;
+  --line-dark:   rgba(255,255,255,.18);
+
+  --radius-pill: 999px;
+  --radius-lg:   28px;
+  --radius-md:   20px;
+
+  --shadow-soft: 0 18px 50px rgba(75, 0, 155, .10);
+  --shadow-card: 0 10px 30px rgba(80, 27, 107, .07);
+
+  --font: "TT Commons", "TT Commons Expanded", system-ui, -apple-system,
+          "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --maxw: 1200px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+html, body { overflow-x: hidden; max-width: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--ink);
+  background: var(--white);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+/* ----------  Типографика  ---------- */
+/* По брендбуку заголовки набираются со строчной буквы и с отрицательным
+   трекингом. Текст рекламного обещания (h1) оставлен по согласованному ТЗ. */
+h1, h2, h3 { margin: 0; color: var(--ink); font-weight: 800; overflow-wrap: anywhere; }
+h1 { font-size: clamp(34px, 5.2vw, 58px); line-height: 1.04; letter-spacing: -.02em; }
+h2 { font-size: clamp(28px, 3.6vw, 42px); line-height: 1.1;  letter-spacing: -.02em; }
+h3 { font-size: clamp(18px, 1.5vw, 21px); line-height: 1.2;  letter-spacing: -.01em; font-weight: 700; }
+p  { margin: 0; }
+
+.lead { font-size: clamp(17px, 1.5vw, 20px); color: var(--muted); max-width: 60ch; }
+.muted { color: var(--muted); }
+
+/* ----------  Кнопки  ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 15px 26px;
+  border-radius: var(--radius-pill);
+  font-size: 16px; font-weight: 700; letter-spacing: -.01em;
+  text-decoration: none; cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+  white-space: nowrap;
+}
+.btn--primary {
+  background: var(--grad-brand); color: var(--white);
+  box-shadow: 0 12px 26px rgba(110, 0, 198, .28);
+}
+.btn--primary:hover { transform: translateY(-2px); box-shadow: 0 18px 34px rgba(110, 0, 198, .36); }
+.btn--ghost {
+  background: var(--white); color: var(--purple); border-color: var(--line);
+}
+.btn--ghost:hover { transform: translateY(-2px); border-color: var(--orchid); color: var(--violet); }
+/* На тёмном фоне — мятная обводка (как в кей-вижуале) */
+.on-dark .btn--ghost { background: transparent; color: var(--white); border-color: var(--mint); }
+.on-dark .btn--ghost:hover { background: var(--mint); color: var(--purple); }
+
+/* ----------  Фирменный логотип (официальные файлы бренд-кита)  ---------- */
+.brand {
+  display: inline-flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.brand__logo { height: 34px; width: auto; display: block; }      /* горизонтальный логотип */
+.brand__sign { width: 30px; height: auto; display: block; }      /* только знак (для футера) */
+.brand__word {
+  font-weight: 800; font-size: 22px; letter-spacing: .14em;      /* эмуляция «expanded» */
+  color: var(--purple); text-transform: uppercase;
+}
+.on-dark .brand__word { color: var(--white); }
+
+/* ----------  Хедер  ---------- */
+.header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,255,255,.82);
+  backdrop-filter: saturate(160%) blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.header__row { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+.nav { display: flex; gap: 26px; }
+.nav a {
+  font-size: 15px; font-weight: 600; color: var(--muted);
+  text-decoration: none; letter-spacing: -.01em; transition: color .15s ease;
+}
+.nav a:hover { color: var(--orchid); }
+.header .btn { padding: 11px 20px; font-size: 15px; }
+.burger { display: none; }
+
+/* ----------  Секции  ---------- */
+.section { padding: clamp(56px, 8vw, 104px) 0; }
+.section__head { max-width: 760px; margin-bottom: clamp(28px, 4vw, 48px); }
+.section__head h2 + .lead { margin-top: 16px; }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: var(--radius-pill);
+  background: var(--white); border: 1px solid var(--line);
+  color: var(--purple); font-size: 14px; font-weight: 700; letter-spacing: -.01em;
+  margin-bottom: 22px;
+}
+.eyebrow::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--mint); }
+
+/* ----------  Hero  ---------- */
+.hero {
+  position: relative; overflow: hidden;
+  /* фон подобран под левый край иллюстрации — чтобы растворение было бесшовным */
+  background: linear-gradient(180deg, #e6dcf5 0%, #ecdef4 55%, #ebddf3 100%);
+}
+/* Иллюстрация: бьётся к правому краю, левый край растворяется в фон */
+.hero__art {
+  position: absolute; right: 0; bottom: 0;
+  height: 100%; width: auto; max-width: 64%;
+  object-fit: contain; object-position: right bottom;
+  pointer-events: none; user-select: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 26%);
+          mask-image: linear-gradient(to right, transparent 0, #000 26%);
+}
+.hero__inner {
+  position: relative; z-index: 1;
+  min-height: 600px; display: flex; align-items: center;
+}
+.hero__copy { max-width: 600px; min-width: 0; padding: 80px 0; }
+.hero h1 { margin-bottom: 22px; }
+.hero .lead { font-size: clamp(18px, 1.7vw, 22px); margin-bottom: 32px; }
+.hero__actions { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* ----------  Сетки карточек  ---------- */
+.grid { display: grid; gap: 20px; }
+.grid--3 { grid-template-columns: repeat(3, 1fr); }
+.grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+.card {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius-lg); padding: 28px;
+  box-shadow: var(--shadow-card);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 22px 44px rgba(80,27,107,.12); border-color: #d9cdf2; }
+.card h3 { margin-bottom: 10px; }
+.card p { color: var(--muted); font-size: 16px; }
+
+/* Иконки-бейджи */
+.badge {
+  width: 52px; height: 52px; border-radius: 16px; margin-bottom: 20px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--grad-brand); color: var(--white);
+}
+.badge svg { width: 26px; height: 26px; }
+.badge--num { font-size: 22px; font-weight: 800; }
+.badge--mint { background: rgba(40,230,165,.16); color: var(--violet); }
+.badge--lav  { background: var(--lavender); color: var(--violet); }
+
+/* ----------  Тёмные блоки (БРЭ / Почему это важно)  ---------- */
+.section--dark { background: var(--grad-dark); color: var(--white); }
+.section--dark h2, .section--dark h3 { color: var(--white); }
+.section--dark .lead { color: rgba(255,255,255,.82); }
+.section--dark .card {
+  background: rgba(255,255,255,.07); border-color: var(--line-dark);
+  box-shadow: none; backdrop-filter: blur(6px);
+}
+.section--dark .card h3 { color: var(--white); }
+.section--dark .card p { color: rgba(255,255,255,.78); }
+.section--dark .card:hover { border-color: var(--mint); transform: translateY(-4px); }
+.section--dark .badge--mint { background: rgba(40,230,165,.18); color: var(--mint); }
+
+/* ----------  Темы  ---------- */
+.section--topics { background: var(--grad-soft); }
+.topic { display: flex; flex-direction: column; }
+.topic__icon {
+  width: 46px; height: 46px; border-radius: 14px; margin-bottom: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--lavender); color: var(--violet);
+}
+.topic__icon svg { width: 24px; height: 24px; }
+.topic p { flex: 1; }
+.topic__link {
+  margin-top: 18px; align-self: flex-start;
+  font-weight: 700; font-size: 15px; color: var(--orchid); text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px; letter-spacing: -.01em;
+}
+.topic__link::after { content: "→"; transition: transform .15s ease; }
+.topic:hover .topic__link::after { transform: translateX(4px); }
+
+/* ----------  Шаги  ---------- */
+.steps { counter-reset: step; }
+.step { position: relative; padding-top: 8px; }
+.step__num {
+  width: 56px; height: 56px; border-radius: 50%; margin-bottom: 18px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--grad-brand); color: var(--white);
+  font-size: 24px; font-weight: 800;
+}
+
+/* ----------  Финальный CTA  ---------- */
+.cta { background: var(--grad-dark); color: var(--white); text-align: center; }
+.cta h2 { color: var(--white); max-width: 18ch; margin: 0 auto 16px; }
+.cta .lead { color: rgba(255,255,255,.85); margin: 0 auto 30px; }
+.cta__actions { display: flex; justify-content: center; }
+
+/* ----------  Футер  ---------- */
+.footer { background: #1d0838; color: rgba(255,255,255,.7); padding: 40px 0; font-size: 14px; }
+.footer__row { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; align-items: center; }
+.footer a { color: rgba(255,255,255,.7); }
+.footer__note { max-width: 56ch; line-height: 1.5; }
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .grid--4 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+  .nav, .header .btn { display: none; }
+  /* На мобильном текст раскрывает смысл первым, иллюстрация — компактной полосой ниже */
+  .hero { display: flex; flex-direction: column; }
+  .hero__inner { order: 1; min-height: auto; display: block; }
+  .hero__copy { order: 1; max-width: none; padding: 44px 0 4px; }
+  .hero__art {
+    order: 2; position: static; width: 100%; height: 52vw; max-width: none;
+    object-fit: cover; object-position: 32% 88%;
+    -webkit-mask-image: none; mask-image: none;
+  }
+  .grid--3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .wrap { padding: 0 18px; }
+  .grid--4 { grid-template-columns: 1fr; }
+  .hero__art { height: 58vw; }
+  /* Кнопки — в столбик на всю ширину, чтобы не распирать экран */
+  .hero__actions { flex-direction: column; align-items: stretch; }
+  .hero__actions .btn { width: 100%; justify-content: center; }
+}
