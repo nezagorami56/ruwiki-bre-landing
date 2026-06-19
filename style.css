@@ -171,17 +171,25 @@ p  { margin: 0; }
 
 .card {
   background: var(--white); border: 1px solid var(--line);
-  border-radius: var(--radius-lg); padding: 28px;
+  border-radius: var(--radius-lg); padding: 22px 24px;
   box-shadow: var(--shadow-card);
   transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  /* Компактная раскладка: иконка слева в своей колонке, текст справа */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 18px;
+  align-items: start;
 }
 .card:hover { transform: translateY(-4px); box-shadow: 0 22px 44px rgba(80,27,107,.12); border-color: #d9cdf2; }
-.card h3 { margin-bottom: 10px; }
+.card h3 { margin-bottom: 8px; }
 .card p { color: var(--muted); font-size: 16px; }
+/* Левая колонка — иконка/бейдж; правая — весь текст */
+.card > .badge, .card > .topic__icon { grid-column: 1; grid-row: 1; }
+.card > h3, .card > p, .card > .topic__link { grid-column: 2; }
 
 /* Иконки-бейджи */
 .badge {
-  width: 52px; height: 52px; border-radius: 16px; margin-bottom: 20px;
+  width: 52px; height: 52px; border-radius: 16px; margin-bottom: 0;
   display: inline-flex; align-items: center; justify-content: center;
   background: var(--grad-brand); color: var(--white);
 }
@@ -205,9 +213,9 @@ p  { margin: 0; }
 
 /* ----------  Темы  ---------- */
 .section--topics { background: var(--grad-soft); }
-.topic { display: flex; flex-direction: column; }
+/* .topic наследует grid от .card; высоту больше не растягиваем флексом */
 .topic__icon {
-  width: 46px; height: 46px; border-radius: 14px; margin-bottom: 16px;
+  width: 46px; height: 46px; border-radius: 14px; margin-bottom: 0;
   display: inline-flex; align-items: center; justify-content: center;
   background: var(--lavender); color: var(--violet);
 }
@@ -254,18 +262,14 @@ p  { margin: 0; }
   /* На мобильном текст раскрывает смысл первым, иллюстрация — компактной полосой ниже */
   .hero { display: flex; flex-direction: column; }
   .hero__inner { order: 1; min-height: auto; display: block; }
-  .hero__copy { order: 1; max-width: none; padding: 44px 0 4px; }
-  .hero__art {
-    order: 2; position: static; width: 100%; height: 52vw; max-width: none;
-    object-fit: cover; object-position: 32% 88%;
-    -webkit-mask-image: none; mask-image: none;
-  }
+  .hero__copy { order: 1; max-width: none; padding: 44px 0; }
+  /* На мобильном иллюстрация скрыта ради компактности */
+  .hero__art { display: none; }
   .grid--3 { grid-template-columns: 1fr; }
 }
 @media (max-width: 520px) {
   .wrap { padding: 0 18px; }
   .grid--4 { grid-template-columns: 1fr; }
-  .hero__art { height: 58vw; }
   /* Кнопки — в столбик на всю ширину, чтобы не распирать экран */
   .hero__actions { flex-direction: column; align-items: stretch; }
   .hero__actions .btn { width: 100%; justify-content: center; }
