@@ -217,6 +217,13 @@ p  { margin: 0; }
 
 /* ----------  Темы  ---------- */
 .section--topics { background: var(--grad-soft); }
+.topic-tags { display: flex; flex-wrap: wrap; gap: 10px; }
+.topic-tags .tag {
+  background: var(--white); border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 9px 16px; font-size: 15px; font-weight: 600;
+  color: var(--purple); letter-spacing: -.01em; line-height: 1.2;
+}
 /* .topic наследует grid от .card; высоту больше не растягиваем флексом */
 .topic__icon {
   width: 46px; height: 46px; border-radius: 14px; margin-bottom: 0;
